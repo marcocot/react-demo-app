@@ -1,0 +1,3 @@
+{
+    "extends": ["bambi/web", "bambi/node"]
+}
