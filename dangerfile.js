@@ -26,13 +26,15 @@ if (fs.existsSync('eslint.json')) {
   const errors = eslintErrors.map(error => {
     const format = ':warning:';
     const linkToFile = danger.github.utils.fileLinks([error.filePath]);
-    return `* ${format} ${linkToFile} - ${error.messages[0].message}`;
+    return error.messages.map(message => {
+      return `* ${format} ${linkToFile} - ${message.message}`;
+    });
   });
 
   const linkMarkdown = `
 ## ESLINT
 
-${errors.join('\n')}
+${errors.flat().join('\n')}
 `;
 
   markdown(linkMarkdown);
