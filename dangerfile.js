@@ -1,5 +1,6 @@
-import { message, danger, warn, schedule } from 'danger';
-import eslint from "@eaze/danger-plugin-eslint";
+import { message, danger, warn, markdown } from 'danger';
+
+const fs = require('fs');
 
 const modified = danger.git.modified_files.join('- ');
 message('Changed files: \n- ' + modified);
@@ -20,4 +21,19 @@ if (changes.package && !changes.lock) {
   warn(`${message} - <i>${idea}</i>`);
 }
 
-schedule(eslint());
+if (fs.existsSync('eslint.json')) {
+  const eslintErrors = JSON.parse(fs.readFileSync('eslint.json'));
+  const errors = eslintErrors.map(error => {
+    const format = ':warning:';
+    const linkToFile = danger.github.utils.fileLinks([error.filePath]);
+    return `* ${format} ${linkToFile} - ${error.messages[0].message}`;
+  });
+
+  const linkMarkdown = `
+## ESLINT
+
+${errors.join('\n')}
+`;
+
+  markdown(linkMarkdown);
+}
