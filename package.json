@@ -32,7 +32,9 @@
     ]
   },
   "devDependencies": {
+    "@eaze/danger-plugin-eslint": "^3.2.2",
     "danger": "^9.2.10",
+    "danger-plugin-eslint": "^0.1.0",
     "eslint": "^6.8.0",
     "eslint-config-bambi": "^2.0.2",
     "prettier": "^1.19.1"
